@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body ng-app="order" ng-controller="orderCtrl">
+        
+	<!-- <sum firstno="10" secondno="20"></sum>  -->
+    <div class="">
+        <div class="col-xs-4 cart fullHeight">
+            <h2 class="header text-center">Cart</h2>
+        <button ng-click="toggleCustomisationMenu();">toggle</button>
+        <div class="cart_box">
+        <div class="cart_item">
+           <div class="cart_header">
+               <h4>Item Name</h4>
+               <div class="pull-right cart_buttons"><button><i class="fa fa-edit"></i></button> <button><i class="fa fa-times"></i></button></div>
+           </div>
+           <div class="cart_body">
+               <p>Dip : dummy , Pan : full , etc : etc</p>
+           </div> 
+        </div>
+        <div class="cart_item">
+           <div class="cart_header">
+               <h4>Item Name</h4>
+               <div class="pull-right cart_buttons"><button><i class="fa fa-edit"></i></button> <button><i class="fa fa-times"></i></button></div>
+           </div>
+           <div class="cart_body">
+               <p>Dip : dummy , Pan : full , etc : etc</p>
+           </div> 
+        </div>
+        <div class="cart_item">
+           <div class="cart_header">
+               <h4>Item Name</h4>
+               <div class="pull-right cart_buttons"><button><i class="fa fa-edit"></i></button> <button><i class="fa fa-times"></i></button></div>
+           </div>
+           <div class="cart_body">
+               <p>Dip : dummy , Pan : full , etc : etc</p>
+           </div> 
+        </div>
+         </div>
+        <button class="order_button btn btn-lg text-Center btn-flat">Order</button>
+        </div>
+        
+        
+        <div class="items fullHeight" ng-class="{'col-xs-8':!customMenuOpen,'col-xs-5':customMenuOpen}">
+            <h2 class="header" style="padding-left:15px;color:white;"> items</h2>
+            <div class="row categories">
+            <ul class="nav navbar-nav">
+                <li><a href="javascript:void(0);" class="active" ng-click="loadCategory('pizza');" ng-init="loadCatgory('pizza');">Veg Pizza</a></li>
+                <li><a href="javascript:void(0);" ng-click="loadCategory('drink');">Drinks</a></li>
+                <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Meal </a></li>
+                <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Sweets</a></li>
+                <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Mohito</a></li>
+                <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Dummy</a></li>
+                <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Sweets</a></li>
+                <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Mohito</a></li>
+                <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Dummy</a></li>
+            </ul>
+            </div>
+            <div ng-repeat="x in CurrentCategory" class="row">
+                <input type="checkbox" class="styled-checkbox" id="{{x.item+$index}}">
+                <label for="{{x.item+$index}}" class="item_row"><span class="pull-left">{{x.item}}</span></label>
+            </div>
+             
+        </div>
+        
+        <div class="col-xs-3 custom fullHeight" ng-show="customMenuOpen">
+            <span class="pull-left close" ng-click="toggleCustomisationMenu();"><i class="fa fa-times"></i></span> 
+            <h2 class="text-center header">Customization</h2>
+            <div class="row">
+            <div class="col-xs-5 text-center"><h3>Price</h3></div>
+            <div class="col-xs-2 text-center"><h3> : </h3></div>
+            <div class="col-xs-5 text-center price"><h3><i class="fa fa-inr"></i> <span ng-modal="price"> 4485</span></h3></div>
+            </div>
+            <hr>
+            <div class="row text-center quantity_manager">
+                <span class="quantity_button" ng-click="decQuantity();"><i class="fa fa-minus"></i></span>
+                <input type="number" ng-model="quantity" min="0" max="100" value="1">
+                <span class="quantity_button" ng-click="incQuantity();"><i class="fa fa-plus"></i></span>
+            </div>
+            <div class="custom_row">
+                <h4>Select your Dip</h4>
+                <select name="" id="" class="form-control">
+                    <option value="">hii</option>
+                    <option value="">bye</option>
+                    <option value="">summy</option>
+                </select>
+            </div>
+            <div class="custom_row">
+                <h4>Select your Size</h4>
+                <select name="" id="" class="form-control">
+                    <option value="">hii</option>
+                    <option value="">bye</option>
+                    <option value="">summy</option>
+                </select>
+            </div>
+            <div class="custom_row">
+                <h4>Select your Pan</h4>
+                <select name="" id="" class="form-control">
+                    <option value="">hii</option>
+                    <option value="">bye</option>
+                    <option value="">summy</option>
+                </select>
+            </div>
+            
+        </div>
+    
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/controller.js"></script>
+    <script src="assets/js/model.js"></script>
+</body>
+</html>   
