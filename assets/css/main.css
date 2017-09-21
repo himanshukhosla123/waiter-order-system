@@ -5,13 +5,10 @@ body{
 .header{
     margin:0px -15px;
     padding:10px 0px;
-    color: rgba(0,0,0,0.54);
-    color: rgba(0,0,0,0.87);
-    background: #424242;
+    background: #039be5;
+    background: #4285F4;
     color: white;
-    color: #FF6868; 
     text-transform: capitalize;
-    border-bottom:1px solid rgba(0,0,0,0.14);;
 }
 .cart{
  border-right:1px solid rgba(0,0,0,0.14);
@@ -26,12 +23,13 @@ body{
     left: 0px;
     position: absolute;
     border-radius: 0px;
-    background-color: #404040;
+    background-color:#0388ca;
     color: white;
 }
 .custom{
     border-left:1px solid rgba(0,0,0,0.14);
     transition:all 1s ease-in;
+    background: #FFF0B4;
 }
 
 .close{
@@ -47,84 +45,53 @@ body{
 }
 .close .fa{
     padding-left: 4px;
-
 }
 .fullHeight{
     overflow-y: auto;
 }
 
-.styled-checkbox{
-    display: none;
-    opacity: 0;
+.items div.row{
+    padding-bottom: 2px;
+    border-bottom: 1px solid #ccc;
 }
-
-.styled-checkbox + label {
-  position: relative;
-  cursor: pointer;
-  padding:0;
-}
-.styled-checkbox + label:before {
-  content: '';
-  /* margin-right: 10px; */
-  display: inline-block;
-  vertical-align: sub;
-  width: 20px;
-  height: 20px;
-  margin-top: 13px;
-  background:white;
-  border-radius: 2px; 
-  border:2px solid rgba(0,0,0,0.54);
-}
-
-.styled-checkbox:focus + label:before {
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
-}
-.styled-checkbox:checked + label:before {
-    background:#FF6868;
-    border-radius: 2px;
-    border:2px solid #FF6868;
-    transition: all .25s cubic-bezier(0.25,0.8,0.25,1);
-}
-
-.styled-checkbox:checked + label:after {
-  content: '';
-  position: absolute;
-  right: 18px;
-  top:14px;
-  border: 0px; 
-  background: transparent;
-  width: 6.66667px;
-  height: 13.33333px;
-  border-bottom-width: 2px;
-  border-right-width: 2px;
-  border-color: white;
-  border-style: solid;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
 .item_row{
   display: block;
+  padding:10px 15px;
 }
-.item_row span{
-  display: block;
-  width: 94%;
-  padding:0px 15px;
-  margin:6px 0px;
-  margin-right: 2px;
+
+.item_row .name{
+    width: 75%;
+}
+.item_row button{
+    margin:0px 5px;
+    min-width:40px;
+}
+input[type=checkbox]{display: none;}
+
+input[type=checkbox]:checked+label .add_btn{
+    background-color: #FF6868;
+/*    background-color:#5cb85c;*/
+    color: white;
 }
 
 .categories{
-    max-height:50px;
-    overflow:auto;
-    border-bottom:1px solid #ccc;;
+    max-height:60px;
+    overflow: auto;
+    background: #F7F7F7;
+    border-bottom:1px solid #ccc;
+}
+.categories .nav{
+    padding:4px 5px ;
+    background: #F7F7F7;
 }
 .categories .nav>li>a{
     color:rgba(0,0,0,0.54);
+    background: #F7F7F7;
+    margin: 0px 2px;
 }
-.categories .nav>li>a.active{
-    color:#FF6868;
-    background: #eee;
+.categories .nav>li>a.active,.categories .nav>li>a:hover{
+    color:white;
+    background: #37424B;
 }
 
 .form-control{
@@ -146,14 +113,9 @@ select,option:checked,.price{
 
 .cart_item{
     border-radius:4px;
-    margin: 5px;
+    margin:10px;
     padding:5px 10px;
     background-color: white;
-}
-.cart_buttons button{
-    background-color: transparent;
-    border:1px solid #eee;
-    background-color: #eee;
 }
 .cart_header{
     padding: 5px 0px;
@@ -162,10 +124,12 @@ select,option:checked,.price{
 .cart_header h4{
     display: inline-block;
     margin:5px 0px;
+    color:#039be5;
+    padding-bottom:2px;
 }
 
 .cart_body p{
-    font-size: 14px;
+    font-size: 16px;
 }
 .quantity_manager input{
     width:40px;
@@ -181,4 +145,23 @@ select,option:checked,.price{
  }
 .quantity_button .fa{
     margin-top:8px; 
+}
+div.row.categories{
+    border-color: black;
+    border-width:2px;
+}
+.custom hr{
+    margin: 10px 10px 5px;
+    border-bottom: 1px solid black
+}
+.custom_div{
+    margin-top:40px;
+}
+.custom_div h4{
+    font-weight: 900;
+    text-transform: capitalize;
+    
+}
+.price_block div{
+    padding: 0px;
 }
