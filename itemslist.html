@@ -37,17 +37,27 @@
             <h2 class="header" style="padding-left:15px;color:white;"> items</h2>
             <div class="row categories">
             <ul class="nav navbar-nav" ng-init="getCategoryList();">
-              
-                <li><a href="javascript:void(0);" class="active" ng-init ng-click="loadCategory(x.slug);" ng-if="$first" title="{{x.description}}">{{x.title}}</a></li>
-               <li ng-repeat="x in categoryList"><a href="javascript:void(0);" ng-click="loadCategory(x.slug);" ng-if="!$first" title="{{x.description}}">{{x.title}}</a></li>
+                     <li><a href="javascript:void(0);" class="active" ng-click="loadCategory('pizza');" ng-init="loadCatgory('pizza');">Veg Pizza</a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('drink');">Drinks</a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Meal </a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Sweets</a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Mohito</a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Dummy</a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Sweets</a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Mohito</a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Dummy</a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Mohito</a></li>
+                 <li><a href="javascript:void(0);" ng-click="loadCategory('meal');">Dummy</a></li>
+<!--                <li><a href="javascript:void(0);" class="active" ng-init ng-click="loadCategory(x.slug);" ng-if="$first" title="{{x.description}}">{{x.title}}</a></li>-->
+<!--               <li ng-repeat="x in categoryList"><a href="javascript:void(0);" ng-click="loadCategory(x.slug);" ng-if="!$first" title="{{x.description}}">{{x.title}}</a></li>-->
             
             </ul>
             </div>
             <div ng-repeat="x in CurrentCategory" class="row">
-                <input type="checkbox" class="" id="{{x.item+$index}}" ng-click="addToCart(x.item+$index,$index,true)">
-                <label for="{{x.item+$index}}" class="item_row">
+                <input type="checkbox" class="" id="{{x.item$index}}" ng-click="addToCart(x.item$index,$index,true)">
+                <label for="{{x.item$index}}" class="item_row">
                 <div class="pull-left name">{{x.item}}</div>
-                <div class="pull-right"><button class="add_btn btn" ng-click="addToCart(x.item+$index,$index,false);">Add</button><button ng-click="cutomise($index);" class=" btn btn-info"><i class="fa fa-edit"></i></button></div>
+                <div class="pull-right"><button class="add_btn btn" ng-click="addToCart(x.item$index,$index,false);">Add</button><button ng-click="cutomise($index);" class=" btn btn-info"><i class="fa fa-edit"></i></button></div>
                 
                 </label>
             </div>
