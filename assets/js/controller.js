@@ -12,6 +12,7 @@ app.controller("orderCtrl",function($scope,orderFactory){
                         side:["potato wedges","fries","masala fries","house salad"]}
 }];
     
+    
     $scope.CurrentCategory=[];
     
     $scope.loadCategory=function(id){
@@ -24,26 +25,37 @@ app.controller("orderCtrl",function($scope,orderFactory){
     
     
     $scope.incQuantity=function(index){
+        if(arguments.length==0){
+            $scope.currentItemCustomisation.quantity++;
+        }
+        else
         $scope.CurrentCategory[index].quantity++;
     }
     
     $scope.decQuantity=function(index,id){
+        if(arguments.length==0){
+            $scope.currentItemCustomisation.quantity=$scope.currentItemCustomisation.quantity>0?--$scope.currentItemCustomisation.quantity:0;
+        }
+        else{
         $scope.CurrentCategory[index].quantity=($scope.CurrentCategory[index].quantity>0?--$scope.CurrentCategory[index].quantity:0);
         if($scope.CurrentCategory[index].quantity==0){
             $scope.cartList=$scope.cartList.filter(function(el){
                 return el.title!=$scope.CurrentCategory[index].title;
             });
-            console.log($scope.cartList)
             document.getElementById(id).checked=false;
-        }
+        }}
     }
     
     $scope.cutomise=function(index){
-        $scope.currentItemCustomisation=$scope.CurrentCategory[index];
+        $scope.currentItemCustomisation=$scope.cartList[index];
+        $scope.currentItemCustomisation.customization={patty:["Grilled Chicken","Fried Chickem","veggie","Paneer","Lamb"],
+                        topping:["onino","grilles onion","bell peppers","tomatoes","lettuice","jalapeno","cucumber"],
+                        sauce:["peri-peri maya","mint mayo","BBQ","pesto maya","garlic mayo"],
+                        side:["potato wedges","fries","masala fries","house salad"]};
         $scope.customMenuOpen=true;   
     }
     
-//    $scope.currentItemCustomisation=$scope.CurrentCategory[0];
+    $scope.currentItemCustomisation={};
     $scope.cartList=[];
     
     $scope.addToCart=function(id,index){
@@ -63,35 +75,42 @@ app.controller("orderCtrl",function($scope,orderFactory){
     }
     
     $scope.removeFromCart=function(index){
+        $scope.cartList[index].quantity=0;
         $scope.cartList.splice(index,1);
     }
     
     $scope.placeOrder=function(){
+        console.log($scope.cartList);
         if($scope.cartList.length>0){
-        swal({
-                title:"Place Order ?",
+        
+            swal({
+                title: "Place Order ?",
+                text: "Please Confirm before ordering",
                 type: "info",
-                showCancelButton: true,
-                closeOnConfirm: true
-            }, function (isConfirm) {
-                if (!isConfirm) return;
+                showCancelButton:true,
+                closeOnConfirm:false,
+                showLoaderOnConfirm:true
+                }, function () {
                 $.ajax({
-                    url: "http://35.154/h",
+//                    url:location.protocol+"//"+location.hostname+'/api/order/',
+                    url: "http://35.154/order",
                     type: "POST",
                     dataType: 'json',
-                    data:$scope.cartList,
+                    showLoaderOnConfirm: true,
+                    data:{orders:$scope.cartList},
                     success: function () {
                         swal({
                             title:"Order Placed",
+                            text:"Reset Current Order",
+                            confirmButtonText: "RESET ?",
                             showConfirmButton:true
                         });
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         console.log(xhr);
                         swal("Error in Placing Order!", "Please try again", "error");
-                    }
+                    }});
                 });
-            });
         }
         else{
             swal("Don't Fool Me","Add Something In Cart To Order","info");
@@ -101,6 +120,7 @@ app.controller("orderCtrl",function($scope,orderFactory){
     $scope.getCategoryList=function(){
         var promise=orderFactory.categoryList();
         promise.then(function(data){
+            $("row.categories preloader").hide();
             $scope.categoryList=data;
             $scope.categoriesLength=data.length;
             $scope.categoryMapGenerator();
@@ -122,6 +142,7 @@ app.controller("orderCtrl",function($scope,orderFactory){
                 })();
             }
             console.log($scope.categoryWiseMap)
+            $("preloader").hide();
         $scope.loadCategory(1);
         },
         function(er){

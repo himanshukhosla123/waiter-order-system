@@ -16,7 +16,22 @@ app.directive("sum",function(){
 	}
 });
 
+app.directive("preloader",function(){
+             return{ template:"<div style='text-align:center;'><i class='fa fa-spin fa-spinner'></i></div>",
+              restrict:"E"  
+              }});
 
+app.filter('formatChoice',function(){
+    return function(x){
+        x=JSON.stringify(x);
+        x=x.replace('{',"");
+        x=x.replace('}',"");
+        x=x.replace(/","/g,' , ');
+        x=x.replace(/":"/g,' : ');
+        x=x.replace(/"/g,"");
+        return x;
+    };
+});
 $(document).ready(function(){
     $(".fullHeight").height($(window).height());
     

@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
      <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+    .categories .nav>li>a,.custom_div h4,.header,.item_row .name,select option{text-transform:capitalize}body{font-family:'Open Sans',sans-serif;font-size:18px}.header{margin:0 -15px;padding:10px 0;background:#4285F4;color:#fff}.cart{border-right:1px solid rgba(0,0,0,.14);position:relative;background-color:#eee}.order_button,.order_button:focus,.order_button:hover{display:block;bottom:0;width:100%;left:0;position:absolute;border-radius:0;background-color:#0388ca;color:#fff}.custom{border-left:1px solid rgba(0,0,0,.14);transition:all 1s ease-in;background:#FFF0B4}.close{color:#000;opacity:1;font-size:25px;border-radius:20px;height:28px;background-color:#fff;width:28px;margin-top:5px;margin-left:-10px}.close .fa{padding-left:4px}.fullHeight{overflow-y:auto}.items div.row{padding-bottom:2px;border-bottom:1px solid #ccc}.item_row{display:block;padding:10px 15px}.item_row .name{width:75%}.item_row button{margin:0 5px;min-width:40px}input[type=checkbox]{display:none}.add_btn{background:0 0;border:1px solid #FF6868;border-radius:2px;padding:0}.add_btn span{background:#FF6868;color:#fff;font-size:15px;padding:6px 12px 7px}.add_btn .btn{color:#FF6868;background:#fff}.quantity_row{border-radius:2px;display:inline-block;border:1px solid green}.quantity_row span{color:#fff;background:green}.quantity_row .btn{border-radius:0}.quantity_row input{border:none;width:30px}.categories{max-height:60px;overflow:auto;background:#F7F7F7;border-bottom:1px solid #ccc}.categories .nav{padding:4px 5px;background:#F7F7F7}.categories .nav>li>a{color:rgba(0,0,0,.54);background:#F7F7F7;margin:0 2px}.categories .nav>li>a.active,.categories .nav>li>a:hover{color:#fff;background:#37424B}.form-control{font-size:18px;height:40px}select:focus{border-color:#FF6868!important;outline-color:#FF6868;border-width:1.5px;box-shadow:none!important}.price,option:checked,select{color:#FF6868}.select:focus{border-color:#FF6868}.cart_item{border-radius:4px;margin:10px 0;padding:5px 0 5px 5px;background-color:#fff}.cart_header{padding:5px 0;border-bottom:1px solid #ccc}.cart_header h4{display:inline-block;margin:5px 0;color:#039be5;padding-bottom:2px}.quantity_manager input{width:40px}.quantity_button{height:30px;border-radius:20px;width:30px;display:inline-block;color:#fff;background-color:#FF6868;margin:5px 10px}.quantity_button .fa{margin-top:8px}.cart_body p{font-size:16px}div.row.categories{border-color:#000;border-width:2px}.custom hr{margin:10px 10px 5px;border-bottom:1px solid #000}.custom_div{margin-top:40px}.custom_div h4{font-weight:900}.price_block div{padding:0}
+    </style>
 </head>
 <body ng-app="order" ng-controller="orderCtrl">
         
@@ -22,11 +24,12 @@
         
         <div class="cart_item" ng-repeat="x in cartList">
            <div class="cart_header">
-               <h4 style="width:75%;">{{x.title}}</h4>
-               <div class="pull-right cart_buttons"><button ng-click="cutomise($index)" class="btn btn-info" ng-show="x.default==100"><i class="fa fa-edit"></i></button> <button ng-click="removeFromCart($index);" class="btn btn-danger"><i class="fa fa-times"></i></button></div>
+               <h4 style="width:68%;">{{x.title}}</h4>
+               <div class="pull-right cart_buttons text-right" style="width:32%"><button ng-click="cutomise($index)" class="btn btn-info"><i class="fa fa-edit"></i></button> <button ng-click="removeFromCart($index);" class="btn btn-danger"><i class="fa fa-times"></i></button></div>
            </div>
            <div class="cart_body">
-               <p>Quantity : {{x.quantity}}</p>
+               <p>Quantity : {{x.quantity}} &nbsp; | &nbsp; Price : {{x.price*x.quantity}}</p>
+               <p style="word-break:break-word;" ng-show="currentItemCustomisation.customized">{{ currentItemCustomisation.userChoice | formatChoice }}</p>
            </div> 
         </div>
          </div>
@@ -37,12 +40,14 @@
         <div class="items fullHeight" ng-class="{'col-xs-8':!customMenuOpen,'col-xs-5':customMenuOpen}">
             <h2 class="header" style="padding-left:15px;color:white;"> items</h2>
             <div class="row categories">
+            <preloader></preloader>
             <ul class="nav navbar-nav" ng-init="getCategoryList();">
                 <li ng-repeat="x in categoryList"><a href="javascript:void(0);" class="active" ng-init="loadCatgory(x.id);" ng-click="loadCategory(x.id);" ng-if="$index==0">{{x.title}}</a></li>
                <li ng-repeat="x in categoryList"><a href="javascript:void(0);" ng-click="loadCategory(x.id);" ng-if="$index>0">{{x.title}}</a></li>
             
             </ul>
             </div>
+            <preloader></preloader>
             <div ng-repeat="x in CurrentCategory" class="row">
                 <input type="checkbox" class="" id="{{x.title+$index}}" ng-checked="x.quantity>0">
                 <div class="item_row">
@@ -68,14 +73,21 @@
             <div class="row price_block">
             <div class="col-xs-5 text-right"><h3>Price</h3></div>
             <div class="col-xs-2 text-center"><h3> : </h3></div>
-            <div class="col-xs-5 text-left price"><h3><i class="fa fa-inr"></i> <span ng-modal="price"> 4485</span></h3></div>
+            <div class="col-xs-5 text-left price"><h3><i class="fa fa-inr"></i> <span ng-modal="price"> {{currentItemCustomisation.quantity*currentItemCustomisation.price}}</span></h3></div>
+            </div>
+            <hr>
+              <div class="row text-center quantity_manager">
+            <span class="quantity_button" ng-click="decQuantity();"><i class="fa fa-minus"></i></span>
+            <input type="number" ng-model="quantity" min="0" max="100" ng-value="currentItemCustomisation.quantity">
+            <span class="quantity_button" ng-click="incQuantity();"><i class="fa fa-plus"></i></span>
             </div>
             <hr>
                <div class="custom_div">
                 <div class="custom_row" ng-repeat="(key,value) in currentItemCustomisation.customization">
                 <h4>Select your {{key}}</h4>
-                <select name="{{key}}" id="" class="form-control">
-                    <option value="" ng-repeat="options in value">{{options}}</option>
+                <select name="{{key}}" id="" class="form-control" ng-model="currentItemCustomisation.userChoice[key]" 
+                   ng-init="currentItemCustomisation.userChoice[key]=value[0]">
+                    <option ng-value="options" ng-repeat="options in value">{{options | uppercase}}</option>
                 </select>
                 </div>
             </div>
@@ -84,12 +96,12 @@
     
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/controller.js"></script>
-    <script src="assets/js/model.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+    <script src="assets/js/controller.js" defer></script>
+    <script src="assets/js/model.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" async></script>
     <script>
     function openOrder(){

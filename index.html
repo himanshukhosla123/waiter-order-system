@@ -42,7 +42,7 @@
 <body>
     <div class="text-center col-xs-8 login" style="float:none; margin:0px auto;">
         <form action=""  method="post">
-        <input type="number" placeholder="Enter table no" name="table_num" ng-model="table_no" class="form-control" autofocus>
+        <input type="number" placeholder="Enter table no" name="table_num" min=0 max=100 ng-model="table_no" class="form-control" autofocus>
         <div class="col-xs-6"><h3>Select Waiter Id</h3></div>
         <div class="col-xs-6">
         <select name="waiter_num" id="" class="form-control" style="font-size:20px;">
