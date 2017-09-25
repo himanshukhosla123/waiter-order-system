@@ -4,7 +4,8 @@ app.factory("orderFactory",function($q,$http){
      getCategoryItems:function(slug_name){
          var pr=$q.defer();
          $http({
-            url:'http://35.154.144.146/api/category/'+slug_name,
+//            url:'http://35.154.144.146/api/category/'+slug_name,
+            url:'https://3637e92e.ngrok.io/api/product.json', 
         	method:"get"
          }).then(function(data){
              pr.resolve(data.data);
@@ -13,7 +14,6 @@ app.factory("orderFactory",function($q,$http){
          });
          return pr.promise;
      },
-     
      orderList:function(orders){
     	 var pr=$q.defer();
          $http({
@@ -40,7 +40,20 @@ app.factory("orderFactory",function($q,$http){
              pr.reject(er);
          });
          return pr.promise;
-     }
+     },
+     getAllProducts:function(){
+        var pr=$q.defer();
+         $http({
+        	 method:"get",
+        	 url:'http://35.154.144.146/api/product/?'
+         }
+         ).then(function(data){
+             pr.resolve(data.data);
+         },function(er){
+             pr.reject(er);
+         });
+         return pr.promise;
+    }    
  };
     return obj;
 });

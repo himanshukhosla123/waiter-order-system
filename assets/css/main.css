@@ -61,17 +61,44 @@ body{
 
 .item_row .name{
     width: 75%;
+    text-transform: capitalize;
 }
 .item_row button{
     margin:0px 5px;
-    min-width:40px;
+    min-width: 40px;
 }
 input[type=checkbox]{display: none;}
 
-input[type=checkbox]:checked+label .add_btn{
-    background-color: #FF6868;
-/*    background-color:#5cb85c;*/
+
+.add_btn{
+    background:transparent;
+    border: 1px solid #FF6868;
+    border-radius:2px;
+    padding: 0px;
+}
+.add_btn span{
+    background:#FF6868;
+    color:white;
+    font-size:15px; 
+    padding:6px 12px 7px;
+}
+.add_btn .btn{
+    color: #FF6868;
+    background:white;
+}
+.quantity_row{
+    border-radius:2px;
+    display: inline-block;
+    border:1px solid green;
+}
+.quantity_row span{
     color: white;
+    background: green;
+}
+.quantity_row .btn{border-radius: 0px;}
+.quantity_row input{
+    border: none;
+    width:30px; 
 }
 
 .categories{
@@ -88,6 +115,7 @@ input[type=checkbox]:checked+label .add_btn{
     color:rgba(0,0,0,0.54);
     background: #F7F7F7;
     margin: 0px 2px;
+    text-transform: capitalize;
 }
 .categories .nav>li>a.active,.categories .nav>li>a:hover{
     color:white;
@@ -107,6 +135,7 @@ outline-color: #FF6868;
 select,option:checked,.price{
     color:#FF6868;
 }
+select option{text-transform: capitalize;}
 .select:focus{
     border-color:#FF6868;
 }
@@ -131,21 +160,7 @@ select,option:checked,.price{
 .cart_body p{
     font-size: 16px;
 }
-.quantity_manager input{
-    width:40px;
-}
-.quantity_button{
-    height:30px;
-    border-radius: 20px;
-    width:30px;
-    display: inline-block;
-    color: white;
-    background-color: #FF6868;
-    margin:5px 10px;
- }
-.quantity_button .fa{
-    margin-top:8px; 
-}
+
 div.row.categories{
     border-color: black;
     border-width:2px;

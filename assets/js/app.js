@@ -20,7 +20,4 @@ app.directive("sum",function(){
 $(document).ready(function(){
     $(".fullHeight").height($(window).height());
     
-    $(".add_btn").click(function(){
-        $(this).parents("label").click();
-    });
 });
