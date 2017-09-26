@@ -23,12 +23,13 @@ app.directive("preloader",function(){
 
 app.filter('formatChoice',function(){
     return function(x){
+        if(x!=undefined){
         x=JSON.stringify(x);
         x=x.replace('{',"");
         x=x.replace('}',"");
         x=x.replace(/","/g,' , ');
         x=x.replace(/":"/g,' : ');
-        x=x.replace(/"/g,"");
+        x=x.replace(/"/g,"");}
         return x;
     };
 });
