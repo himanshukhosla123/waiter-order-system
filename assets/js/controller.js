@@ -45,14 +45,24 @@ app.controller("orderCtrl",function($scope,orderFactory){
             document.getElementById(id).checked=false;
         }}
     }
-    
+    $scope.userid=localStorage.getItem('userid');
     $scope.cutomise=function(index){
         $scope.currentItemCustomisation=$scope.cartList[index];
-        $scope.currentItemCustomisation.customization={patty:["Grilled Chicken","Fried Chickem","veggie","Paneer","Lamb"],
+        $scope.currentItemCustomisation.customization={
+                       patty:["Grilled Chicken","Fried Chickem","veggie","Paneer","Lamb"],
                         topping:["onino","grilles onion","bell peppers","tomatoes","lettuice","jalapeno","cucumber"],
                         sauce:["peri-peri maya","mint mayo","BBQ","pesto maya","garlic mayo"],
-                        side:["potato wedges","fries","masala fries","house salad"]};
+                        side:["potato wedges","fries","masala fries","house salad"]
+        };
+        
         $scope.customMenuOpen=true;   
+    }
+    
+    $scope.logout=function(){
+        localStorage.clear();
+        location.href=location.origin+'/index.html';
+//       location.href='http://35.154.144.146';
+
     }
     
     $scope.currentItemCustomisation={};

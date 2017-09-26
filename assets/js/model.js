@@ -1,12 +1,19 @@
+const getHeaders=function(){
+        console.log(localStorage.getItem('token'));
+      return {
+        'Authorization': 'Basic '+localStorage.getItem('token')
+    };  
+    }
 app.factory("orderFactory",function($q,$http){
     var obj={
-     
+
      orderList:function(orders){
     	 var pr=$q.defer();
          $http({
         	 method:"get",
         	 url:location.protocol+"//"+location.hostname+"/order",
-        	 params:{ dto_obj:orders }              
+        	 params:{ dto_obj:orders },
+             headers:getHeaders()
          }
          ).then(function(data){
              pr.resolve(data.data);
@@ -20,7 +27,8 @@ app.factory("orderFactory",function($q,$http){
          $http({
         	 method:"get",
 //        	 url:location.protocol+"//"+location.hostname+'/api/category/',
-             url:'http://35.154.144.146/api/category/'
+             url:'http://35.154.144.146/api/category/',
+             headers:getHeaders()
          }
          ).then(function(data){
              pr.resolve(data.data);
@@ -34,7 +42,8 @@ app.factory("orderFactory",function($q,$http){
          $http({
         	 method:"get",
 //        	 url:location.protocol+"//"+location.hostname+'/api/product/',
-             url:'http://35.154.144.146/api/product/'
+             url:'http://35.154.144.146/api/product/',
+             headers:getHeaders()
          }
          ).then(function(data){
              pr.resolve(data.data);
