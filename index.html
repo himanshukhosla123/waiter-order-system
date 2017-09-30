@@ -17,7 +17,7 @@
                  success:function(data,_,xhr){
                      if(xhr.status==200){     
                  location.href=location.origin+'/itemslist.html';
-//                location.href='http://35.154.144.146';
+                location.href='http://35.154.144.146';
                       }
                  },
                 error:function(){
@@ -41,8 +41,6 @@
     <div class="text-center col-xs-8 login" style="float:none; margin:0px auto;">
         <form>
       <input type="text" id="username" placeholder="Enter waiter id" class="form-control" name="username" required>
-<!--   40591431271945948  --> 
-<!--  dinesh arora  -->
         <input type="password" id="password" placeholder="Enter password" class="form-control" name="password" required>
         <a href="javascript:void(0);" onclick="authenticate();" class="btn btn-lg" style="font-size:20px;">Submit</a>   
         </form>
@@ -56,24 +54,28 @@
              console.log(localStorage.getItem('token'));
              var username=document.getElementById("username").value;
              var password=document.getElementById("password").value;
+             console.log(btoa(username + ":" + password));
              if(username&&password&&username!=""&&password!="")
              $.ajax({
-                 url: 'http://35.154.144.146/api/product/',
+                 url: 'http://35.154.144.146/api/products/',
                  method:'GET',
                  beforeSend: function (xhr) {
+                     
                      xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+                 
                    },
                  success:function(data,_,xhr){
                      if(xhr.status==200){
                        localStorage.setItem('token', btoa(username + ":" + password));
                        localStorage.setItem('userid',username);
                        location.href=location.origin+'/itemslist.html';
-//                location.href='http://35.154.144.146';
+//                location.href='http://35.154.144.146/';
 
                       }
                  },
                     error:function(){
-                        swal("Could not login","Try again", "error")
+//                        swal("Could not login","Try again", "error");
+                        alert("Wrong User id and password");
                     }
                   
              });

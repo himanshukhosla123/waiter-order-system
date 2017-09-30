@@ -19,7 +19,6 @@ app.controller("orderCtrl",function($scope,orderFactory){
         $scope.activeCategoryId=id;
         $(".nav li a.active").removeClass("active");
         $($(".nav li a")[id-1]).addClass("active");
-        console.log("Load "+id);
         $scope.CurrentCategory=$scope.categoryWiseMap[id];
    }
     
@@ -45,7 +44,16 @@ app.controller("orderCtrl",function($scope,orderFactory){
             document.getElementById(id).checked=false;
         }}
     }
-    $scope.userid=localStorage.getItem('userid');
+    $scope.userid=(function(){ 
+        var userid=localStorage.getItem('userid')
+                if(userid==undefined||userid==null)
+                {
+                    location.href=window.origin+"/index.html";
+                }
+                else 
+                return userid;
+    })();
+    
     $scope.cutomise=function(index){
         $scope.currentItemCustomisation=$scope.cartList[index];
         $scope.currentItemCustomisation.customization={
@@ -89,38 +97,74 @@ app.controller("orderCtrl",function($scope,orderFactory){
         $scope.cartList.splice(index,1);
     }
     
+    var TableList=function(){
+        var promise=orderFactory.getAllTables();
+        promise.then(function(data){
+            $scope.table_list= data;
+        },function(){
+            swal("Error","Couldn't Get Table List","error")
+        });
+    };
+    
+    var AddOnList=function(){
+        var promise=orderFactory.getVariations();
+        promise.then(function(data){
+            $scope.addOnsList=data;
+        },function(){
+            swal("Error","Couldn't Get Variations List","error");
+        });
+    };
+    TableList();
+    AddOnList();
+    
+    function getTable(){
+        var x=document.getElementById("selectedOrderTable").value;
+        if(x>0){return x;}
+        else{
+            swal("Select Table Number","Select a table to proceed for order","info");
+            $("#selectedOrderTable").focus();
+            return 0;
+        }
+    }
     $scope.placeOrder=function(){
-        console.log($scope.cartList);
-        if($scope.cartList.length>0){
+        if(getTable()==0)
+        {return 0;}
         
+        var obj={
+            user:$scope.userid,
+            items:JSON.stringify($scope.cartList.slice()),
+            table:getTable() // string kr de saare
+        };
+        console.log(obj);
+        if($scope.cartList.length>0){
             swal({
-                title: "Place Order ?",
+                title: "Place Order at Table"+$scope.table_no+" ?",
                 text: "Please Confirm before ordering",
                 type: "info",
                 showCancelButton:true,
                 closeOnConfirm:false,
                 showLoaderOnConfirm:true
-                }, function () {
-                $.ajax({
-//                    url:location.protocol+"//"+location.hostname+'/api/order/',
-                    url: "http://35.154/order",
-                    type: "POST",
-                    dataType: 'json',
-                    showLoaderOnConfirm: true,
-                    data:{orders:$scope.cartList},
-                    success: function () {
+                }, function(isconfirm){
+                if(!isconfirm)
+                    return ;
+                else
+                {var promise=orderFactory.placeOrder();
+                    promise.then(function(data){
+                    
                         swal({
                             title:"Order Placed",
                             text:"Reset Current Order",
-                            confirmButtonText: "RESET ?",
+                            confirmButtonText:"RESET ?",
                             showConfirmButton:true
+                        },function(){
+                            //reset
                         });
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        console.log(xhr);
+                    },function(er){
+                        console.log(er);
                         swal("Error in Placing Order!", "Please try again", "error");
-                    }});
-                });
+                    });
+                }
+                    });               
         }
         else{
             swal("Don't Fool Me","Add Something In Cart To Order","info");
@@ -130,7 +174,7 @@ app.controller("orderCtrl",function($scope,orderFactory){
     $scope.getCategoryList=function(){
         var promise=orderFactory.categoryList();
         promise.then(function(data){
-            $("row.categories preloader").hide();
+            $("row.categories preloader").hide(50);
             $scope.categoryList=data;
             $scope.categoriesLength=data.length;
             $scope.categoryMapGenerator();
@@ -151,8 +195,7 @@ app.controller("orderCtrl",function($scope,orderFactory){
                 });
                 })();
             }
-            console.log($scope.categoryWiseMap)
-            $("preloader").hide();
+            $("preloader").hide(50);
         $scope.loadCategory(1);
         },
         function(er){
