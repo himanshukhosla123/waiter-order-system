@@ -35,22 +35,6 @@ app.factory("orderFactory",function($q,$http){
              pr.reject(er);
          });
          return pr.promise;
-    },placeOrder:function(obj){
-        var pr=$q.defer();
-         $http({
-        	 method:"POST",
-//        	 url:location.origin+'/api/orders/create',
-             url:'http://35.154.144.146/api/orders/create',
-             headers:getHeaders(),
-             params:obj
-         }
-         ).then(function(data){
-             pr.resolve(data.data);
-             console.log(data);
-         },function(er){
-             pr.reject(er);
-         });
-         return pr.promise;
     },
     getAllTables:function(){
         var pr=$q.defer();

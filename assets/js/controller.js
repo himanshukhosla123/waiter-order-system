@@ -131,14 +131,13 @@ app.controller("orderCtrl",function($scope,orderFactory){
         {return 0;}
         
         var obj={
-            user:$scope.userid,
             items:JSON.stringify($scope.cartList.slice()),
-            table:getTable() // string kr de saare
+            table:getTable().toString() // string kr de saare
         };
         console.log(obj);
         if($scope.cartList.length>0){
             swal({
-                title: "Place Order at Table"+$scope.table_no+" ?",
+                title: "Place Order at Table "+getTable()+" ?",
                 text: "Please Confirm before ordering",
                 type: "info",
                 showCancelButton:true,
@@ -148,23 +147,27 @@ app.controller("orderCtrl",function($scope,orderFactory){
                 if(!isconfirm)
                     return ;
                 else
-                {var promise=orderFactory.placeOrder();
-                    promise.then(function(data){
-                    
+                {
+                    $.ajax({
+                 url: 'http://35.154.144.146/api/orders/create',
+                 method:'POST',
+                 headers:{'Authorization': 'Basic '+localStorage.getItem('token')},
+                 data:obj,
+                 success:function(data){
                         swal({
                             title:"Order Placed",
                             text:"Reset Current Order",
                             confirmButtonText:"RESET ?",
                             showConfirmButton:true
-                        },function(){
-                            //reset
+                        },function(isconfirm){
+                            location.reload();
                         });
-                    },function(er){
-                        console.log(er);
+                    },
+                    error:function(){
                         swal("Error in Placing Order!", "Please try again", "error");
-                    });
-                }
-                    });               
+                    }
+            });      
+                } });               
         }
         else{
             swal("Don't Fool Me","Add Something In Cart To Order","info");
@@ -188,6 +191,8 @@ app.controller("orderCtrl",function($scope,orderFactory){
         var promise=orderFactory.getAllProducts();
         $scope.categoryWiseMap={}; 
         promise.then(function(data){
+            $scope.productList=data;
+            console.log(data);
             for(var i=1;i<=$scope.categoriesLength;i++){
                 $scope.categoryWiseMap[i]=(function(){ 
                     return data.filter(function(obj)
