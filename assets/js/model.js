@@ -50,21 +50,6 @@ app.factory("orderFactory",function($q,$http){
              pr.reject(er);
          });
          return pr.promise;
-    },
-    getVariations:function(){
-        var pr=$q.defer();
-         $http({
-        	 method:"get",
-//        	 url:location.origin+'/api/variaiton-addons/',
-             url:'http://35.154.144.146/api/variaiton-addons/',
-             headers:getHeaders()
-         }
-         ).then(function(data){
-             pr.resolve(data.data);
-         },function(er){
-             pr.reject(er);
-         });
-         return pr.promise;
     }
         
         

@@ -3,47 +3,44 @@ app.controller("orderCtrl",function($scope,orderFactory){
     $scope.toggleCustomisationMenu=function(){
         $scope.customMenuOpen=!$scope.customMenuOpen;
     }
-    
-    $scope.CurrentCategory=[{
-    title: "Mexican treasure",
-        customization:{patty:["Grilled Chicken","Fried Chickem","veggie","Paneer","Lamb"],
-                        topping:["onino","grilles onion","bell peppers","tomatoes","lettuice","jalapeno","cucumber"],
-                        sauce:["peri-peri maya","mint mayo","BBQ","pesto maya","garlic mayo"],
-                        side:["potato wedges","fries","masala fries","house salad"]}
-}];
-    
-    
     $scope.CurrentCategory=[];
     
-    $scope.loadCategory=function(id){
+    $scope.loadCategory=function(id,navId){
         $scope.activeCategoryId=id;
         $(".nav li a.active").removeClass("active");
-        $($(".nav li a")[id-1]).addClass("active");
+        $("#"+navId).addClass("active");
         $scope.CurrentCategory=$scope.categoryWiseMap[id];
    }
     
+    $scope.search={title:""};
+    $scope.emptySearchCheck=function(){        
+        return $scope.search.title.length>0?true:false;        
+    }
     
-    $scope.incQuantity=function(index){
-        if(arguments.length==0){
-            $scope.currentItemCustomisation.quantity++;
+    $scope.incQuantity=function(obj){
+        var objectInCartList=$scope.cartList.filter(function(elem){
+            return elem.title==obj.title;
+        }).length>0?true:false;
+        if(!objectInCartList)
+        {obj.quantity=1;
+        $scope.cartList.push(obj);
         }
         else
-        $scope.CurrentCategory[index].quantity++;
+        obj.quantity++;
+            
     }
     
-    $scope.decQuantity=function(index,id){
-        if(arguments.length==0){
-            $scope.currentItemCustomisation.quantity=$scope.currentItemCustomisation.quantity>0?--$scope.currentItemCustomisation.quantity:0;
-        }
-        else{
-        $scope.CurrentCategory[index].quantity=($scope.CurrentCategory[index].quantity>0?--$scope.CurrentCategory[index].quantity:0);
-        if($scope.CurrentCategory[index].quantity==0){
+    $scope.decQuantity=function(obj,id){
+        obj.quantity=(obj.quantity>0?--obj.quantity:0);
+        if(obj.quantity==0){
             $scope.cartList=$scope.cartList.filter(function(el){
-                return el.title!=$scope.CurrentCategory[index].title;
+                return el.title!=obj.title;
             });
+            if(document.getElementById(id)!=null)
             document.getElementById(id).checked=false;
-        }}
+        }
     }
+    
     $scope.userid=(function(){ 
         var userid=localStorage.getItem('userid')
                 if(userid==undefined||userid==null)
@@ -54,15 +51,8 @@ app.controller("orderCtrl",function($scope,orderFactory){
                 return userid;
     })();
     
-    $scope.cutomise=function(index){
-        $scope.currentItemCustomisation=$scope.cartList[index];
-        $scope.currentItemCustomisation.customization={
-                       patty:["Grilled Chicken","Fried Chickem","veggie","Paneer","Lamb"],
-                        topping:["onino","grilles onion","bell peppers","tomatoes","lettuice","jalapeno","cucumber"],
-                        sauce:["peri-peri maya","mint mayo","BBQ","pesto maya","garlic mayo"],
-                        side:["potato wedges","fries","masala fries","house salad"]
-        };
-        
+    $scope.cutomise=function(obj){
+        $scope.currentItemCustomisation=obj;
         $scope.customMenuOpen=true;   
     }
     
@@ -76,26 +66,35 @@ app.controller("orderCtrl",function($scope,orderFactory){
     $scope.currentItemCustomisation={};
     $scope.cartList=[];
     
-    $scope.addToCart=function(id,index){
-        $scope.customMenuOpen=false;        
-        $scope.CurrentCategory[index].quantity=1;
+    $scope.addToCart=function(obj,id){
+        obj.quantity=1;
         var checked=document.getElementById(id).checked;
         if(checked==false||checked==undefined){
-        $scope.cartList.push($scope.CurrentCategory[index]);
+        $scope.cartList.push(obj);
         document.getElementById(id).checked=true;
         }
+        
         else if(checked==true){
         $scope.cartList=$scope.cartList.filter(function(el){
-            return el.title !==$scope.CurrentCategory[index].title;
+            return el.title !==obj.title;
         });
         document.getElementById(id).checked=false;
         }
+        $scope.customMenuOpen=false;
     }
     
     $scope.removeFromCart=function(index){
         $scope.cartList[index].quantity=0;
         $scope.cartList.splice(index,1);
     }
+    
+    $scope.makeMultiple=function(length,name){
+        if(length>1)
+        $("select[name="+name+"]").prop("multiple","multiple");
+        else
+        $("select[name="+name+"]").prop("multiple","");
+    }
+    
     
     var TableList=function(){
         var promise=orderFactory.getAllTables();
@@ -105,17 +104,7 @@ app.controller("orderCtrl",function($scope,orderFactory){
             swal("Error","Couldn't Get Table List","error")
         });
     };
-    
-    var AddOnList=function(){
-        var promise=orderFactory.getVariations();
-        promise.then(function(data){
-            $scope.addOnsList=data;
-        },function(){
-            swal("Error","Couldn't Get Variations List","error");
-        });
-    };
     TableList();
-    AddOnList();
     
     function getTable(){
         var x=document.getElementById("selectedOrderTable").value;
@@ -131,7 +120,8 @@ app.controller("orderCtrl",function($scope,orderFactory){
         {return 0;}
         
         var obj={
-            items:JSON.stringify($scope.cartList.slice()),
+//            items:JSON.stringify($scope.cartList.slice()),
+            items:$scope.cartList.slice(),
             table:getTable().toString() // string kr de saare
         };
         console.log(obj);
@@ -181,18 +171,28 @@ app.controller("orderCtrl",function($scope,orderFactory){
             $scope.categoryList=data;
             $scope.categoriesLength=data.length;
             $scope.categoryMapGenerator();
+            setTimeout(manageNavWidth,100);
         },function(er){
             swal("Error","Coudn't get category List","error");
         });
     }
     
     
+    function manageNavWidth(){
+        var sum=0;
+        var list=$(".nav li");
+        for(var i=0;i<list.length;i++){
+            sum+=$(list[i]).width();
+        }
+        $(".row.nav-container").width(sum);
+    }
+    
     $scope.categoryMapGenerator=function(){
         var promise=orderFactory.getAllProducts();
         $scope.categoryWiseMap={}; 
         promise.then(function(data){
             $scope.productList=data;
-            console.log(data);
+//            console.log(data);
             for(var i=1;i<=$scope.categoriesLength;i++){
                 $scope.categoryWiseMap[i]=(function(){ 
                     return data.filter(function(obj)
@@ -201,7 +201,7 @@ app.controller("orderCtrl",function($scope,orderFactory){
                 })();
             }
             $("preloader").hide(50);
-        $scope.loadCategory(1);
+        $scope.loadCategory(1,'0cat');
         },
         function(er){
             swal("Error","Could Not Get Products","error");

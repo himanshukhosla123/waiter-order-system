@@ -33,7 +33,11 @@ app.filter('formatChoice',function(){
         return x;
     };
 });
+
 $(document).ready(function(){
     $(".fullHeight").height($(window).height());
+    $('#myModal').on('shown.bs.modal', function () {
+    $('#search').focus();
+}) 
     
 });
