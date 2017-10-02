@@ -40,7 +40,7 @@
            </div>
            <div class="cart_body">
                <p>Quantity : {{x.quantity}} &nbsp; | &nbsp; Price : {{x.price*x.quantity+'+'+x.tax}} &nbsp; | &nbsp; Variation : {{x.variation_title}}
-               <span style="word-break:break-word;" ng-show="x.default==23">|<span ng-repeat="y in currentItemCustomisation.customization">{{y.name+' : '+y.items}}</span></span>
+               <span style="word-break:break-word;" ng-show="x.default==23||true">|<span ng-repeat="y in x.customization">{{y.name+' : '+y.items}}</span></span>
                </p>
            </div> 
         </div>
