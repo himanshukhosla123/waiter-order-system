@@ -27,17 +27,30 @@ app.filter('formatChoice',function(){
         x=JSON.stringify(x);
         x=x.replace('{',"");
         x=x.replace('}',"");
+        x=x.replace(']',"");
+        x=x.replace('[',"");
         x=x.replace(/","/g,' , ');
         x=x.replace(/":"/g,' : ');
         x=x.replace(/"/g,"");}
         return x;
     };
 });
-
 $(document).ready(function(){
-    $(".fullHeight").height($(window).height());
-    $('#myModal').on('shown.bs.modal', function () {
-    $('#search').focus();
-}) 
-    
+   $('#search').on('shown.bs.modal', function () {
+    $('#search_b').focus();    
+}); 
+    function manageDim(){
+    $(".cart_box , .categories").css("height",$(window).height()-53+"px");
+    $(".item_box").css("height",$(window).height()-53+"px");
+    $(".modal-dialog").css("width","800px");
+     $(".modal-dialog").css("margin","10px auto");
+//    $(".item_row .name").css("width",$(".items").width()-185+"px");
+//    $(".item_box").css("width",$(".items").width()-216+"px");
+//    $(".cart_header h4").css("width",$(".cart").width()-90+"px");
+    }
+    manageDim();
+    $(window).on("resize",manageDim);
 });
+
+
+//comments , ui , search , 

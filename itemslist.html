@@ -1,162 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
-    <style>
-        body{user-select:none;}.categories .nav>li>a,.custom_div h4,.header,.item_row .name,select option{text-transform:capitalize}body{font-family:'Open Sans',sans-serif;font-size:18px}.header{margin:0 -15px;padding:10px 0;background:#4285F4;color:#fff}.cart{border-right:1px solid rgba(0,0,0,.14);position:relative;background-color:#eee}.order_button,.order_button:focus,.order_button:hover{display:block;bottom:0;width:100%;left:0;position:absolute;border-radius:0;background-color:#0388ca;color:#fff}.custom{border-left:1px solid rgba(0,0,0,.14);transition:all 1s ease-in;background:#FFF0B4}.close{color:#000;opacity:1;font-size:25px;border-radius:20px;height:28px;background-color:#fff;width:28px;margin-top:5px;margin-left:-10px}.close .fa{padding-left:4px}.fullHeight{overflow-y:auto}.items div.row{padding-bottom:2px;border-bottom:1px solid #ccc}.item_row{display:block;padding:10px 15px}.item_row .name{width:75%}.item_row button{margin:0 5px;min-width:40px}
-        input[type=checkbox]{display:none}
-        .add_btn{background:0 0;border:1px solid #FF6868;border-radius:2px;padding:0}.add_btn span{background:#FF6868;color:#fff;font-size:15px;padding:6px 12px 7px}.add_btn .btn{color:#FF6868;background:#fff}.quantity_row{border-radius:2px;display:inline-block;border:1px solid green}.quantity_row span{color:#fff;background:green}.quantity_row .btn{border-radius:0}.quantity_row input{border:none;width:30px}.categories{border-bottom:1px solid #ccc}.categories .nav{padding:4px 5px;background:#F7F7F7}.categories .nav>li>a{color:rgba(0,0,0,.54);background:#F7F7F7;margin:0 2px;border-right: 1px solid #ccc;}.categories .nav>li>a.active,.categories .nav>li>a:hover{color:#fff;background:#37424B}.form-control{font-size:18px;height:40px}select:focus{border-color:#FF6868!important;outline-color:#FF6868;border-width:1.5px;box-shadow:none!important}.price,option:checked,select{color:#FF6868}.select:focus{border-color:#FF6868}.cart_item{border-radius:4px;margin:10px 0;padding:5px 0 5px 5px;background-color:#fff}.cart_header{padding:5px 0;border-bottom:1px solid #ccc}.cart_header h4{display:inline-block;margin:5px 0;color:#039be5;padding-bottom:2px}.quantity_manager input{width:40px}.quantity_button{height:30px;border-radius:20px;width:30px;display:inline-block;color:#fff;background-color:#FF6868;margin:5px 10px}.quantity_button .fa{margin-top:8px}.cart_body p{font-size:14px; margin-bottom:5px;}div.row.categories{border-color:#000;border-width:2px}.custom hr{margin:10px 10px 5px;border-bottom:1px solid #000}.custom_div{margin-top:40px}.custom_div h4{font-weight:900}.price_block div{padding:0}
-        .modal .close{border-radius:2px 0px 0px 2px;border-right-width:0px;width:10%;box-shadow: none;color: blue;}.modal .modal-header input{ width: 90%;border-left-width: 0px;border: none;}[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak { display:none !important;}.items preloader{font-size:50px;}.items .categories preloader{font-size:36px;} 
-        .categories{max-height:70px;overflow:auto;}
-    </style>
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
-    <script src="assets/js/app.js" ></script>
-    <script src="assets/js/controller.js" ></script>
-    <script src="assets/js/model.js" ></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/controller.js"></script>
+    <script src="assets/js/model.js"></script>
 </head>
 <body ng-app="order" ng-controller="orderCtrl" ng-cloak>
-        
-	<div class="">
+    <div class="">
         <div class="col-xs-4 cart fullHeight">
-            <h2 class="header">&nbsp;&nbsp; Cart <span class="pull-right">Id : {{userid}} &nbsp;&nbsp; </span></h2>
-        <div class="cart_box" style="margin-bottom:87px;">
-        
-        
-        <div class="cart_item" ng-repeat="x in cartList">
-           <div class="cart_header">
-               <h4 style="width:68%;">{{x.title}}</h4>
-               <div class="pull-right cart_buttons text-right" style="width:32%"><button ng-click="cutomise(x)" class="btn btn-info"><i class="fa fa-edit"></i></button> 
-               <button ng-click="removeFromCart($index);" class="btn btn-danger"><i class="fa fa-times"></i></button></div>
-           </div>
-           <div class="cart_body">
-               <p>Quantity : {{x.quantity}} &nbsp; | &nbsp; Price : {{x.price*x.quantity+'+'+x.tax}} &nbsp; | &nbsp; Variation : {{x.variation_title}}
-               <span style="word-break:break-word;" ng-show="x.default==23">|<span ng-repeat="y in x.customization">{{y.name+' : '+y.items}}</span></span>
-               </p>
-           </div> 
+            <h2 class="header">&nbsp;&nbsp; Cart <span class="pull-right">Waiter Id : {{userid}} &nbsp;&nbsp; </span></h2>
+            <div class="cart_box" style="padding-bottom:87px;">
+                <div class="cart_item" ng-repeat="x in cartList">
+                    <div class="cart_header">
+                        <h4>{{x.title}}</h4>
+                        <div class="pull-right cart_buttons text-right">
+                            <button ng-click="cutomise(x)" data-toggle="modal" data-target="#myModal" class="btn btn-info" style="margin-right:6px;"><i class="fa fa-edit"></i></button>
+                            <button ng-click="removeFromCart($index);" class="btn btn-danger"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="cart_body">
+                        <p>Quantity : <strong>{{x.quantity}}</strong> &nbsp; | &nbsp; Price : <strong>{{x.price*x.quantity}}</strong> &nbsp; | &nbsp; <span ng-show="x.variations!=undefined && x.variations!=null">Variation : {{x.variation_title}} &nbsp; | &nbsp; </span> <span style="word-break:break-word;" ng-show="x.customization_type.length>0"><div ng-repeat="y in x.customization" class="text-center custom_unit">
+                        {{y.type}} : <strong>{{y.options|formatChoice}}</strong> </div></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <input type="text" class="form-control btn btn-lg text-Center btn-flat" placeholder="Anything special"  ng-model="comments" style="bottom:46px;position:fixed;width:inherit;left:0px;border-radius:0px;border:1px solid black">
+            <button class="order_button btn btn-lg text-Center btn-flat" data-toggle="modal" data-target="#myModal2" style="position:fixed;width:inherit;">Order</button>
         </div>
-         </div>
-         <select name="" id="selectedOrderTable" class="form-control" style="bottom:46px;left:0;position:fixed;width:inherit;">
-            <option value="0" selected>--Select Table--</option>
-             <option value="{{table.id}}" ng-repeat="table in table_list">{{table.table_no}}</option>
-         </select>
-        <button class="order_button btn btn-lg text-Center btn-flat" ng-click="placeOrder();" style="position:fixed;width:inherit;">Order</button>
-        </div>
-        
-        
-        <div class="items fullHeight" ng-class="{'col-xs-8':!customMenuOpen,'col-xs-5':customMenuOpen}">
+        <div class="items fullHeight col-xs-8">
             <h2 class="header" style="padding-left:15px;color:white;"> items
             
             <button class="btn btn-info pull-right"style="padding: 15px 12px;margin-top:-10px;" ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</button>
-            <button class="btn btn-warning pull-right" type="button"  style="padding: 15px 12px;margin:-10px 10px 0px;" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i> Search</button>
+            <button class="btn btn-info pull-right"style="padding: 15px 12px;margin-top:-10px;margin-right:10px;" onclick="location.reload();"><i class="fa fa-refresh"></i> Refresh</button>
+            <button class="btn btn-info pull-right" style="padding: 15px 12px;margin-top:-10px;margin-right:10px;" data-toggle="modal" data-target="#swap_table"><i class="fa fa-exchange"></i> Swap Table</button>
+            <button class="btn btn-default pull-right" type="button"  style="padding: 15px 12px;margin:-10px 10px 0px;" data-toggle="modal" data-target="#search"><i class="fa fa-search"></i> Search</button>
             </h2>
             <div class="row categories">
-            <preloader></preloader>
-            <div class="row nav-container" style="margin:0px;"> 
-               <ul class="nav navbar-nav" ng-init="getCategoryList();" style="padding:0px;">
-                <li ng-repeat="x in categoryList"><a href="javascript:void(0);" id="{{$index+'cat'}}" class="active" ng-init="loadCatgory(x.id,$index+'cat');" ng-click="loadCategory(x.id,$index+'cat');" ng-if="$index==0">{{x.title}}</a></li>
-               <li ng-repeat="x in categoryList"><a href="javascript:void(0);" id="{{$index+'cat'}}" ng-click="loadCategory(x.id ,$index+'cat');" ng-if="$index>0">{{x.title}}</a></li>
-            
-            </ul>
-            </div>
-            </div>
-            <preloader></preloader>
-            <div class="">
-            <div ng-repeat="x in CurrentCategory" class="row">
-                <input type="checkbox" class="" id="{{x.title+$index}}" ng-checked="x.quantity>0">
-                <div class="item_row">
-                <div class="pull-left name">{{x.title}}</div>
-                
-                <div class="pull-right" style="width:25%;text-align:right">
-                <button class="add_btn" ng-click="addToCart(x,x.title+$index);" ng-show="x.quantity==0||x.quantity==undefined">
-                <span>Add</span><i class="btn fa fa-plus"></i></button>
-                
-                <div class="quantity_row" ng-show="x.quantity>0">
-                <span ng-click="decQuantity(x,x.title+$index);" class="btn"><i class="fa fa-minus"></i></span>
-                <input type="number"  min="1" max="99" ng-value="x.quantity">
-                <span class="btn" ng-click="incQuantity(x);"><i class="fa fa-plus"></i></span>
+                <preloader></preloader>
+                <div class="row nav-container" style="margin:0px;">
+                    <ul class="nav" ng-init="getCategoryList();" style="padding:0px;">
+                        <li ng-repeat="x in categoryList"><a href="javascript:void(0);" id="{{$index+'cat'}}" class="active" ng-init="loadCatgory(x.id,$index+'cat');" ng-click="loadCategory(x.id,$index+'cat');" ng-if="$index==0">{{x.title}}</a></li>
+                        <li ng-repeat="x in categoryList"><a href="javascript:void(0);" id="{{$index+'cat'}}" ng-click="loadCategory(x.id ,$index+'cat');" ng-if="$index>0">{{x.title}}</a></li>
+                    </ul>
                 </div>
-                <button ng-click="cutomise(x);" class=" btn btn-info" ng-show="x.default==23"><i class="fa fa-edit"></i></button></div>
+            </div>
+            <preloader></preloader>
+            <div class="item_box">
+                <div ng-repeat="x in CurrentCategory" class="row">
+                    <input type="checkbox" class="" id="{{x.title+$index}}" ng-checked="x.quantity>0">
+                    <div class="item_row">
+                        <div class="pull-left name" ng-click="manageAdd(x,x.title+$index);">{{x.title}}</div>
+                        <div class="pull-right" style="text-align:right">
+                            <button class="add_btn" ng-click="addToCart(x,x.title+$index);" ng-show="x.quantity==0||x.quantity==undefined"> <span>Add</span><i class="btn fa fa-plus"></i></button>
+                            <div class="quantity_row" ng-show="x.quantity>0"> <span ng-click="decQuantity(x,x.title+$index);" class="btn"><i class="fa fa-minus"></i></span>
+                                <input type="number" min="1" max="99" ng-value="x.quantity" disabled> <span class="btn" ng-click="incQuantity(x);"><i class="fa fa-plus"></i></span> </div>
+                            <button ng-click="cutomise(x);" class="btn btn-info" ng-show="x.customization_type.length>0" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></button>
+                        </div>
+                    </div>
                 </div>
-            </div> 
             </div>
         </div>
-        
-        <div class="col-xs-3 custom fullHeight" ng-show="customMenuOpen">
-            <span class="pull-left close" ng-click="toggleCustomisationMenu();"><i class="fa fa-times"></i></span> 
-            <h2 class="text-center header">Customization</h2>
-            <div class="row price_block">
-            <div class="col-xs-5 text-right"><h3>Price</h3></div>
-            <div class="col-xs-2 text-center"><h3> : </h3></div>
-            <div class="col-xs-5 text-left price"><h3><i class="fa fa-inr"></i> <span ng-modal="price"> {{currentItemCustomisation.quantity*currentItemCustomisation.price}}</span></h3></div>
-            </div>
-            <hr>
-              <div class="row text-center quantity_manager">
-            <span class="quantity_button" ng-click="decQuantity(currentItemCustomisation);"><i class="fa fa-minus"></i></span>
-            <input type="number" ng-model="quantity" min="0" max="100" ng-value="currentItemCustomisation.quantity">
-            <span class="quantity_button" ng-click="incQuantity(currentItemCustomisation);"><i class="fa fa-plus"></i></span>
-            </div>
-            <hr>
-               <div class="custom_div">
-                <div class="custom_row">
-                <h4>Select your Variation</h4>
-                <select name="" id="" class="form-control" ng-model="currentItemCustomisation.variation_title">
-                    <option ng-value="options.title" ng-repeat="options in currentItemCustomisation.variations">{{options.title+'@'+options.price | uppercase}}</option>
-                </select>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="col-xs-12 custom text-center" ng-show="customMenuOpen"> <span class="pull-right close" ng-click="toggleCustomisationMenu();" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></span>
+                        <h2 class="text-center header">Customization</h2>
+                        <div class="row price_block">
+                            <div class="col-xs-5 text-right">
+                                <h3>Price</h3></div>
+                            <div class="col-xs-2 text-center">
+                                <h3> : </h3></div>
+                            <div class="col-xs-5 text-left price">
+                                <h3><i class="fa fa-inr"></i> <span ng-modal="price"> {{currentItemCustomisation.quantity*currentItemCustomisation.price}}</span></h3></div>
+                        </div>
+                        <hr>
+                        <div class="row text-center quantity_manager"> <span class="quantity_button" ng-click="decQuantity(currentItemCustomisation);"><i class="fa fa-minus"></i></span>
+                            <input type="number" ng-model="quantity" min="0" max="100" ng-value="currentItemCustomisation.quantity"> <span class="quantity_button" ng-click="incQuantity(currentItemCustomisation);"><i class="fa fa-plus"></i></span> </div>
+                        <hr>
+                        <div class="custom_div row">
+                            <div class="custom_row" ng-show="currentItemCustomisation.variations!=undefined&&currentItemCustomisation.variations!=null">
+                                <h4>Select your Variation</h4>
+                                <select name="" id="" class="form-control" ng-model="currentItemCustomisation.variation_title">
+                                    <option ng-value="options.title" ng-repeat="options in currentItemCustomisation.variations">{{options.title+'@'+options.price | uppercase}}</option>
+                                </select>
+                            </div>
+                            <div class="custom_row row" ng-repeat="x in currentItemCustomisation.customization_type">
+                                <h4 class="col-xs-5">Select {{x.name}}<span ng-show="x.max_per_piece>1"> (Any {{x.max_per_piece}})</span></h4>
+                                <div class="col-xs-7">
+                                <select name="{{x.name}}" id="" class="form-control" ng-model="currentItemCustomisation.customization[$index].options" ng-if="x.max_per_piece>1" ng-init="currentItemCustomisation.customization[$index].type=x.name;" multiple>
+                                    <option ng-value="options.option_name" ng-repeat="options in x.customization_options">{{options.option_name+' @ '+options.price | uppercase}}</option>
+                                </select>
+                                <select name="{{x.name}}" id="" class="form-control" ng-model="currentItemCustomisation.customization[$index].options" ng-if="x.max_per_piece==1" ng-init="currentItemCustomisation.customization[$index].type=x.name;">
+                                    <option value="" selected="selected">Select {{x.name}}</option>
+                                    <option ng-value="options.option_name" ng-repeat="options in x.customization_options">{{options.option_name+' @ '+options.price | uppercase}}</option>
+                                </select>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                        </div>
+                    </div>
                 </div>
-                
-                
-                <div class="custom_row" ng-repeat="x in currentItemCustomisation.customization_type">
-                <h4>Select your {{x.name}}<span ng-show="x.max_per_piece>1"> (Any {{x.max_per_piece}})</span></h4>
-                <select name="{{x.name}}" id="" class="form-control" ng-model="currentItemCustomisation.customization[$index].items" ng-init="makeMultiple(x.max_per_piece,x.name); currentItemCustomisation.customization[$index].name=x.name">
-                    <option ng-value="options.option_name" ng-repeat="options in x.customization_options">{{options.option_name | uppercase}}</option>
-                </select>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                     <span class="pull-right close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></span>
+                      Choose Table </div>
+                    <div class="modal-body">
+                        <div class="row table_area">
+                            <div class='tables' ng-repeat="table in table_list">
+                                <input class='table_btn' id='table_btn{{table.id}}' name="table" type='radio' ng-value="table.table_no"/>
+                                <label for='table_btn{{table.id}}'>{{table.table_no}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lg order" data-loading-text="Placing Order..." autocomplete="off" style="width:100%;" ng-click="placeOrder();" data-dismiss="moda2l">Order</button>
+                    </div>
                 </div>
             </div>
-            
+        </div>
+    </div>
+    
+    <div class="modal fade" id="swap_table" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3">
+            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                    <div class="modal-header">
+                     <span class="pull-right close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></span>
+                      Swap Table </div>
+                    <div class="modal-body">
+                        <div class="row text-center" style="padding:30px 0px;border-bottom:1px solid #ccc;">
+                             <h4 class="col-xs-4">Old Table</h4>
+                           <div class="col-xs-8">
+                             <select name="old_table" id="" class="form-control" ng-model="old_table">
+                             <option value="" selected="selected">-- Select Old Table --</option>
+                            <option ng-repeat="table in table_list" ng-value="table.table_no">
+                                {{table.table_no}}
+                               </option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="row text-center" style="padding:30px 0px;">
+                             <h4 class="col-xs-4">Changed Table</h4>
+                           <div class="col-xs-8">
+                             <select name="old_table" id="" class="form-control" ng-model="changed_table">
+                             <option value="" selected="selected">-- Select Changed Table --</option>
+                            <option ng-repeat="table in table_list" ng-value="table.table_no">
+                                {{table.table_no}}
+                               </option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lg"  data-dismiss="modal" aria-label="Close" style="width:100%;" ng-click="swapTable();">Swap Table</button>
+                    </div>
+                </div>
+            </div>
         </div>
     
-    </div>
-      
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close pull-left form-control" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="fa fa-arrow-left"></span></button>
-        <input type="text" placeholder="search" id="search" class="form-control" ng-model="search.title" autofocus>
-      </div>
-      <div class="items modal-body" style="min-height:250px;">
-        <div ng-repeat="x in productList|filter:search|filter:emptySearchCheck" class="row">
-                <input type="checkbox" class="" id="{{x.title+$index+'fromSearch'}}" ng-checked="x.quantity>0">
-                <div class="item_row">
-                <div class="pull-left name">{{x.title}}</div>
+    <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-left form-control" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="fa fa-arrow-left"></span> Back</button>
+                    <input type="text" placeholder="search here" id="search_b" class="form-control" ng-model="search.title" autofocus> </div>
+                <div class="items modal-body" style="min-height:250px;">
+                    <div ng-repeat="x in productList|filter:search" class="row">
+                        <input type="checkbox" class="" id="{{x.title+$index+'fromSearch'}}" ng-checked="x.quantity>0">
+                        <div class="item_row">
+                            <div class="pull-left name"  ng-click="manageAdd(x,x.title+$index+'fromSearch');">{{x.title}}</div>
+                            <div class="pull-right" style="text-align:right">
+                                 <button ng-click="cutomise(x);" class=" btn btn-info" ng-show="false"><i class="fa fa-edit"></i></button>
+                                <button class="add_btn" ng-click="addToCart(x,x.title+$index+'fromSearch');" ng-show="x.quantity==0||x.quantity==undefined"> <span>Add</span><i class="btn fa fa-plus"></i></button>
+                                <div class="quantity_row" ng-show="x.quantity>0"> <span ng-click="decQuantity(x,x.title+$index+'fromSearch');" class="btn"><i class="fa fa-minus"></i></span>
+                                    <input type="number" min="1" max="99" ng-value="x.quantity" disabled> <span class="btn" ng-click="incQuantity(x);"><i class="fa fa-plus"></i></span> </div>
                 
-                <div class="pull-right" style="width:25%;text-align:right">
-                <button class="add_btn" ng-click="addToCart(x,x.title+$index+'fromSearch');" ng-show="x.quantity==0||x.quantity==undefined">
-                <span>Add</span><i class="btn fa fa-plus"></i></button>
-                
-                <div class="quantity_row" ng-show="x.quantity>0">
-                <span ng-click="decQuantity(x,x.title+$index+'fromSearch');" class="btn"><i class="fa fa-minus"></i></span>
-                <input type="number"  min="1" max="99" ng-value="x.quantity">
-                <span class="btn" ng-click="incQuantity(x);"><i class="fa fa-plus"></i></span>
-                </div>
-                <button ng-click="cutomise($index);" class=" btn btn-info" ng-show="false"><i class="fa fa-edit"></i></button></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-      </div>
+        </div>
     </div>
-  </div>
-</div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" async></script>
 </body>
-</html>   
+</html>

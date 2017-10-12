@@ -1,3 +1,70 @@
+        .table_area{
+            text-align: center;
+        }
+        .tables{
+            display: inline-block;
+            margin:21px;
+        }
+        .table_btn{
+            width: auto;
+            height: auto;
+            border: 1px solid #555;
+            padding: 10px;          
+        }
+
+        input[type="radio"]{
+            visibility: hidden;
+           display: none;
+        }
+
+        .tables label{
+            min-height:40px;
+            min-width:45px;
+            padding: 5px;
+            cursor: pointer;
+            position: relative;
+            background-color: #999;
+            border: 2px solid #666;
+            line-height:35px;
+        }
+
+        .tables label:after,.tables label:before{
+        	content:'';
+            display: inline-block;
+            position:absolute;
+            border:2px solid #444;
+            height:100%;
+            top:-7px;
+        }
+   
+    .tables label:after{
+        border-left-width:0;
+        padding: 27px 3px 28px 3px;
+        right:-11px;
+    }
+    
+    .tables label:before{
+        border-right-width: 0;
+        padding:27px 3px 28px 3px;
+        left:-11px;
+    }
+        .tables input[type=radio]:checked + label{
+            opacity: 1;
+            transform: scale(1.2);
+            color:#fff;
+            background: #43a047      ;
+    }
+
+
+
+
+
+
+
+body {
+    user-select: none;
+}
+
 .categories .nav>li>a,
 .custom_div h4,
 .header,
@@ -5,10 +72,6 @@
 select option {
     text-transform: capitalize
 }
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
-{ display:none !important;}   
-
 
 body {
     font-family: 'Open Sans', sans-serif;
@@ -18,13 +81,19 @@ body {
 .header {
     margin: 0 -15px;
     padding: 10px 0;
+    overflow: hidden;
     background: #4285F4;
+    background: rgb(255,110,10);
     color: #fff
 }
 
+.order_button,.header,.btn-primary{
+    background:rgb(255,110,10) !important;
+}
 .cart {
-    border-right: 1px solid rgba(0, 0, 0, .14);
+    border-right: 1px solid rgba(0, 0, 0, .9);
     position: relative;
+    padding:0px 5px;
     background-color: #eee
 }
 
@@ -40,11 +109,14 @@ body {
     background-color: #0388ca;
     color: #fff
 }
-
 .custom {
     border-left: 1px solid rgba(0, 0, 0, .14);
     transition: all 1s ease-in;
-    background: #FFF0B4
+    background: #FFF0B4;
+}
+
+.items .header{
+    padding-bottom: 0px;
 }
 
 .close {
@@ -58,15 +130,18 @@ body {
     margin-top: 5px;
     margin-left: -10px
 }
-
+.cart_box,.item_box{
+    overflow-y: auto;
+    overflow-x:hidden;
+    padding-right: 5px;
+}
 .close .fa {
     padding-left: 4px
 }
 
-.fullHeight {
-    overflow-y: auto
+.items{
+/*    padding-right:0px;*/
 }
-
 .items div.row {
     padding-bottom: 2px;
     border-bottom: 1px solid #ccc
@@ -77,8 +152,8 @@ body {
     padding: 10px 15px
 }
 
-.item_row .name {
-    width: 75%
+.item_row .name{
+    width:calc(100% - 185px);
 }
 
 .item_row button {
@@ -130,10 +205,7 @@ input[type=checkbox] {
 }
 
 .categories {
-    max-height: 60px;
-    overflow: auto;
-    background: #F7F7F7;
-    border-bottom: 1px solid #ccc
+    border-bottom: 1px solid #ccc;
 }
 
 .categories .nav {
@@ -144,7 +216,8 @@ input[type=checkbox] {
 .categories .nav>li>a {
     color: rgba(0, 0, 0, .54);
     background: #F7F7F7;
-    margin: 0 2px
+    margin: 0 2px;
+    border-right: 1px solid #ccc;
 }
 
 .categories .nav>li>a.active,
@@ -167,7 +240,7 @@ select:focus {
 
 .price,
 option:checked,
-select {
+select{
     color: #FF6868
 }
 
@@ -183,15 +256,16 @@ select {
 }
 
 .cart_header {
-    padding: 5px 0;
+    padding:5px 0;
     border-bottom: 1px solid #ccc
 }
 
 .cart_header h4 {
     display: inline-block;
-    margin: 5px 0;
-    color: #039be5;
-    padding-bottom: 2px
+    margin:5px 0;
+    color:#039be5;
+    width: calc(100% - 90px);
+    padding-bottom:2px
 }
 
 .quantity_manager input {
@@ -213,7 +287,8 @@ select {
 }
 
 .cart_body p {
-    font-size: 16px
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 
 div.row.categories {
@@ -237,3 +312,62 @@ div.row.categories {
 .price_block div {
     padding: 0
 }
+
+.modal .close {
+    border-radius: 2px 0px 0px 2px;
+    border-right-width: 0px;
+    width: 10%;
+    box-shadow: none;
+    color: blue;
+}
+
+.modal .modal-header input {
+    width: 90%;
+    border-left-width: 0px;
+    border: none;
+}
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
+}
+
+.items preloader {
+    font-size: 50px;
+}
+
+.items .categories preloader {
+    font-size: 36px;
+}
+
+.nav>li>a {
+    font-weight: bold;
+}
+
+.categories{
+    width: 230px;
+    float: left;
+    overflow:auto;
+}
+.item_box{
+    float: right;
+    width: calc(100% - 230px);
+}
+.categories .nav>li>a {
+            border: 1px solid #ccc;
+            margin:2px;
+}
+html input[disabled] {
+        cursor: default;
+        background: white;
+        }
+        .custom_unit{
+            font-size: 15px;
+        }
+        .custom_row.row{
+            margin: 0px 0px 10px;
+        }
